@@ -9,10 +9,10 @@ mod utils;
 
 use crate::parser::parse_xml;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let matches = Command::new("Glucose Data Extractor")
-        .version("0.2.0")
-        .author("Pedro Gonzalez")
+fn create_command() -> Command<'static> {
+    Command::new("Glucose Data Extractor")
+        .version("1.0")
+        .author("Your Name")
         .about("Extracts glucose data from Apple Health XML export")
         .arg(
             Arg::new("input")
@@ -36,7 +36,31 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .help("Use current directory for input (export.xml) and output (output.json)")
                 .conflicts_with_all(&["input", "output"]),
         )
-        .get_matches();
+        .arg(
+            Arg::new("help")
+                .short('h')
+                .long("help")
+                .help("Print help information"),
+        )
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let cmd = create_command();
+    let matches = match cmd.try_get_matches() {
+        Ok(m) => m,
+        Err(e) => {
+            let _ = cmd.print_help();
+            println!("\nError: {}", e);
+            return Ok(());
+        }
+    };
+
+    // If we reach here, it means we have valid matches
+    // Check if help was requested
+    if matches.is_present("help") {
+        cmd.print_help()?;
+        return Ok(());
+    }
 
     let (input, output) = if matches.is_present("current-directory") {
         println!("Using current directory for input and output.");
