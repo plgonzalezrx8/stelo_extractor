@@ -11,8 +11,8 @@ use crate::parser::parse_xml;
 
 fn create_command() -> Command<'static> {
     Command::new("Glucose Data Extractor")
-        .version("1.0")
-        .author("Your Name")
+        .version("0.3.1")
+        .author("Pedro Gonzalez")
         .about("Extracts glucose data from Apple Health XML export")
         .arg(
             Arg::new("input")
@@ -49,18 +49,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let matches = match cmd.try_get_matches_from_mut(std::env::args_os()) {
         Ok(m) => m,
         Err(e) => {
-            let _ = cmd.print_help();
-            println!("\nError: {}", e);
-            return Ok(());
+            // Let clap handle the error, which includes printing help if needed
+            e.exit();
         }
     };
 
-    // If we reach here, it means we have valid matches
-    // Check if help was requested
-    if matches.is_present("help") {
-        cmd.print_help()?;
-        return Ok(());
-    }
+    // At this point, we know we have valid matches and help wasn't requested
+    // (because clap would have handled it already if it was)
 
     let (input, output) = if matches.is_present("current-directory") {
         println!("Using current directory for input and output.");

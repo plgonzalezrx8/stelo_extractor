@@ -7,6 +7,7 @@ Glucose Data Extractor is a Rust-based tool designed to extract glucose data fro
 - Extracts glucose data from Apple Health app exports
 - Outputs data in JSON format for easy analysis
 - Fast and efficient processing, even for large datasets
+- Flexible command-line interface with options for input and output files
 
 ## Installation
 
@@ -40,13 +41,36 @@ Glucose Data Extractor is a Rust-based tool designed to extract glucose data fro
 
 2. Extract the exported zip file and locate the `export.xml` file.
 
-3. Run the Apple HealthGlucose Data Extractor:
+3. Run the Apple Health Glucose Data Extractor using one of the following methods:
+
+   a. Specify input and output files:
 
    ```
-   ./target/release/glucose-data-extractor /path/to/export.xml
+   ./target/release/stelo_extractor --input /path/to/export.xml --output /path/to/output.json
    ```
 
-4. The extracted glucose data will be saved as `output.json` in the same directory as the executable.
+   b. Use the current directory (assumes `export.xml` is in the current directory):
+
+   ```
+   ./target/release/stelo_extractor --current-directory
+   ```
+
+   This will look for `export.xml` in the current directory and save the output as `output.json` in the same directory.
+
+4. Additional options:
+   - Use `--help` to display the help menu with all available options:
+
+     ```
+     ./target/release/stelo_extractor --help
+     ```
+
+## Command-line Options
+
+- `-i, --input <FILE>`: Specify the input XML file (required if not using --current-directory)
+- `-o, --output <FILE>`: Specify the output JSON file (required if not using --current-directory)
+- `--current-directory`: Use the current directory for input (`export.xml`) and output (`output.json`)
+- `-h, --help`: Display help information
+- `-V, --version`: Display version information
 
 ## Future Plans
 
