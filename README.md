@@ -14,19 +14,19 @@ Glucose Data Extractor is a Rust-based tool designed to extract glucose data fro
 
 2. Clone this repository:
 
-   ```
+   ```bash
    git clone https://github.com/plgonzalezrx8/stelo_extractor.git
    ```
 
 3. Navigate to the project directory:
 
-   ```
+   ```bash
    cd stelo_extractor
    ```
 
 4. Build the project:
 
-   ```
+   ```bash
    cargo build --release
    ```
 
