@@ -45,8 +45,8 @@ fn create_command() -> Command<'static> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let cmd = create_command();
-    let matches = match cmd.try_get_matches() {
+    let mut cmd = create_command();
+    let matches = match cmd.try_get_matches_from_mut(std::env::args_os()) {
         Ok(m) => m,
         Err(e) => {
             let _ = cmd.print_help();
